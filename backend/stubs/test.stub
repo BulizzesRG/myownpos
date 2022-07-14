@@ -1,0 +1,32 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Response;
+use Laravel\Sanctum\Sanctum;
+use App\Models\User;
+use Tests\TestCase;
+
+class {{ class }} extends TestCase
+{
+
+	use RefreshDatabase, WithFaker;
+	private User $user;
+
+	public function setUp(): void
+	{
+		parent::setUp();
+		$this->user = User::factory()->create(['is_staff' => 1])->first();		
+	}
+
+    /** @test **/	
+    public function example()
+    {
+		Sanctum::actingAs($this->user);
+		
+        $response = $this->get('/');
+        $response->assertStatus(200);
+    }
+}

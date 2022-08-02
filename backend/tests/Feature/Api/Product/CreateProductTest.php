@@ -413,7 +413,6 @@ class CreateProductTest extends TestCase
 			$parameters
 		));
 
-		
 		$response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 		$response->assertExactJson([
 			'status' => 'fail',

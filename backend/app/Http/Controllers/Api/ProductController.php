@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Http\Requests\Product\StoreProductRequest;
+use Illuminate\Http\JsonResponse;
 
 class ProductController extends Controller
 {
@@ -37,7 +38,14 @@ class ProductController extends Controller
 		return new ProductResource($product);
 	}
 
-	public function destroy(Product $product)
+		
+	/**
+	 * destroy a specified resource product
+	 *
+	 * @param  \App\Models\Product $product
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function destroy(Product $product): JsonResponse 
 	{
 		$product->delete();
 

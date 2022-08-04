@@ -6,8 +6,9 @@ use JsonSerializable;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Product\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
-use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\Product\StoreProductRequest;
 
 class ProductController extends Controller
 {
@@ -30,18 +31,9 @@ class ProductController extends Controller
      * @param  \App\Models\Product $product
      * @return \Illuminate\Http\Response
      */
-	public function update(Product $product, Request $request)
+	public function update(Product $product, UpdateProductRequest $request)
 	{
-		$request->validate([
-			'description' => ['required', 'min:3', 'max:150'],
-			'barcode' => ['required', 'alpha_num', 'min:3', 'max:20', 'unique:products,barcode,' . $product->id, 'unique:products,alternative_code'],
-			'alternative_code' => ['required', 'alpha_num', 'min:3', 'max:20', 'unique:products,alternative_code,' . $product->id, 'unique:products,barcode,' . $product->id],
-			'format_of_sell' => ['required', 'in:pieza,servicio,granel,caja']
-		]);
-		
-		$product->update($request->all());
-
+		$product->update($request->validated());
 		return new ProductResource($product);
-
 	}
 }

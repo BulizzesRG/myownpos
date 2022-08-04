@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreProductRequest extends FormRequest
+class UpdateProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class StoreProductRequest extends FormRequest
     {
         return [
 			'description' => [
-				'required',
+				'required', 
 				'min:3', 
 				'max:150'
 			],
@@ -33,27 +33,17 @@ class StoreProductRequest extends FormRequest
 				'required', 
 				'alpha_num', 
 				'min:3', 
-				'max:20' , 
-				'unique:products,barcode' , 
+				'max:20', 
+				'unique:products,barcode,' . $this->product->id, 
 				'unique:products,alternative_code'
 			],
 			'alternative_code' => [
-				'required' , 
+				'required', 
 				'alpha_num', 
 				'min:3', 
 				'max:20', 
-				'unique:products,alternative_code', 
-				'unique:products,barcode'
-			],
-			'sale_price' => [
-				'required', 
-				'numeric' ,
-				'min:0.20', 
-				'max:1000000'
-			],
-			'purchase_price' => [
-				'required', 
-				'numeric'
+				'unique:products,alternative_code,' . $this->product->id, 
+				'unique:products,barcode,' . $this->product->id
 			],
 			'format_of_sell' => [
 				'required', 

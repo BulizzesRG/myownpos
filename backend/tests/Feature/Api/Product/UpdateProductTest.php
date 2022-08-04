@@ -78,6 +78,40 @@ class UpdateProductTest extends TestCase
     }
 
 	/** @test **/
+	public function purchase_price_and_sale_price_cannot_update_with_the_other_fields()
+	{
+		Sanctum::actingAs($this->user);
+
+		$product =  Product::factory()->create([
+			'format_of_sell' => 'pieza'
+		]);
+
+		$parameters = [
+			'description' => $this->faker()->paragraph(1),
+			'barcode' => $this->faker()->ean13(),
+			'alternative_code' => $this->faker()->ean13(),
+			'purchase_price' => $purchase = $this->faker()->randomFloat(2,1,999999),
+			'sale_price' => $purchase + $this->faker()->randomFloat(2,1,2),			 
+			'format_of_sell' => 'caja'
+		];
+
+        $response = $this->putJson(
+			route('api.v1.products.update', $product->id),
+			$parameters
+		);
+
+		$productUpdate = Product::first();
+
+		$response->assertStatus(Response::HTTP_OK);
+
+		$this->assertEquals($productUpdate->purchase_price, $product->purchase_price);
+		$this->assertEquals($productUpdate->sale_price, $product->sale_price);
+
+		$this->assertNotEquals($parameters['sale_price'], $productUpdate->sale_price);
+		$this->assertNotEquals($parameters['purchase_price'], $productUpdate->purchase_price);
+	}
+
+	/** @test **/
 	public function description_is_required_for_update_a_product()
 	{
 		Sanctum::actingAs($this->user);

@@ -26,6 +26,7 @@ Route::middleware('auth:sanctum')->group(function ()
     {
         Route::post('products',[ProductController::class, 'store'])->name('products.store');
 		Route::put('products/{product:id}',[ProductController::class, 'update'])->name('products.update');
+		Route::delete('products/{product:id}', [ProductController::class, 'destroy'])->name('products.delete');
     });
 });
 

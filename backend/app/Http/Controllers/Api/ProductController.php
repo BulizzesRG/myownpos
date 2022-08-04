@@ -36,4 +36,14 @@ class ProductController extends Controller
 		$product->update($request->validated());
 		return new ProductResource($product);
 	}
+
+	public function destroy(Product $product)
+	{
+		$product->delete();
+
+		return response()->json([
+			'status' => 'success',
+			'data' => []
+		]);
+	}
 }

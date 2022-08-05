@@ -2,10 +2,11 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Throwable;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
-use Throwable;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -56,6 +57,13 @@ class Handler extends ExceptionHandler
 					"data" => $e->errors()
                 ], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
-        });		
+        });
+		
+        $this->renderable(function (NotFoundHttpException $e, $request) {
+            return response()->json([
+				'status' => 'fail',
+				'data' => __('Not Found')
+            ], 404);
+        }); 		
     }
 }

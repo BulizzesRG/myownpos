@@ -13,6 +13,31 @@ use Illuminate\Http\JsonResponse;
 
 class ProductController extends Controller
 {
+	public function index()
+	{
+		$products =  Product::all();
+		//dd();
+
+		// return  ProductResource::collection($products);
+
+		return response()->json([
+			'status' => 'success', 
+			'data' => [
+				'products' => $products
+			]
+		]);
+	}
+	
+	/**
+	 * show product resource
+	 *
+	 * @param  \App\Models\Product $product
+	 * @return array|\Illuminate\Contracts\Support\JsonSerializable
+	 */
+	public function show(Product $product): JsonSerializable
+	{
+		return new ProductResource($product);
+	}
     /**
      * Store a newly created resource in products.
      *

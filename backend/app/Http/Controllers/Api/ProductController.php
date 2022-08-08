@@ -15,10 +15,22 @@ class ProductController extends Controller
 {
 	public function index()
 	{
-		$products =  Product::all();
-		//dd();
-
-		// return  ProductResource::collection($products);
+		if(request()->has('query')){
+			$products = Product::search(request()->input('query'))
+			->paginate(
+				$perPage = request('page.size',10),
+				$pageName = 'page[number]',
+				$page = request('page.number',1)
+			)->appends(request()->only('page.size'));
+		}
+		else{
+			$products = Product::query()->paginate(
+				$perPage = request('page.size',10),
+				$columns = ['*'],
+				$pageName = 'page[number]',
+				$currentPage = request('page.number',1)				
+			)->appends(request()->only('page.size'));
+		}
 
 		return response()->json([
 			'status' => 'success', 

@@ -69,11 +69,14 @@ class ListProductTest extends TestCase
 			'status', 
 			'data' => [
 				'products' => [
-					'*' => [
-						'id',
-						'description',
-						'barcode',
-						'sale_price'
+					'total',
+					'data' => [
+						'*' => [
+							'id',
+							'description',
+							'barcode',
+							'sale_price'
+						]
 					]
 				]
 			]

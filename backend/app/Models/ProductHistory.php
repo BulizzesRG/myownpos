@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class ProductHistory extends Model
 {
     use HasFactory;
+	
+	protected $guarded = [];
+
+	public $timestamps = false;
+
+	protected $cast = [
+		'information' => 'array'
+	];
 }

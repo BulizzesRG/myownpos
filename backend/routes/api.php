@@ -2,8 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\PriceProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,8 @@ Route::middleware('auth:sanctum')->group(function ()
         Route::post('products',[ProductController::class, 'store'])->name('products.store');
 		Route::put('products/{product:id}',[ProductController::class, 'update'])->name('products.update');
 		Route::delete('products/{product:id}', [ProductController::class, 'destroy'])->name('products.delete');
+
+		Route::put('prices/{product:id}', [PriceProductController::class, 'update'])->name('prices.update');
     });
 });
 
